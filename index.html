@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Re-Moda Sustentable</title>
+<style>
+:root{--verde:#145c35;--verde2:#dff3d9;--fondo:#f4fff2;--borde:#cfe8c8;--wa:#25D366;--danger:#b3261e}*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--fondo);color:#132f20}.wrap{max-width:1180px;margin:auto;padding:14px}header{background:linear-gradient(180deg,#eaf8e5,#fff);border-bottom:1px solid var(--borde);position:sticky;top:0;z-index:20}.head{display:flex;justify-content:space-between;align-items:center;gap:12px}.brand{display:flex;align-items:center;gap:12px}.brand img{width:78px;height:78px;object-fit:contain;border-radius:16px}.brand h1{margin:0;color:var(--verde);font-size:28px}.brand p{margin:2px 0 0;font-weight:700;color:#457351}.btn{border:0;border-radius:12px;padding:11px 14px;background:var(--verde);color:white;font-weight:800;cursor:pointer;text-decoration:none;display:inline-block}.btn.sec{background:white;color:var(--verde);border:1px solid var(--verde)}.btn.wa{background:var(--wa)}.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}.toolbar input,.toolbar select{padding:12px;border:1px solid var(--borde);border-radius:12px;flex:1;min-width:160px}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px}.card{background:white;border:1px solid var(--borde);border-radius:18px;overflow:hidden;box-shadow:0 4px 15px rgba(0,0,0,.06)}.photos{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:#eef6ed;height:230px}.photos img{width:100%;height:230px;object-fit:cover;background:#eef6ed}.info{padding:13px}.row{display:flex;gap:8px;justify-content:space-between;align-items:center;flex-wrap:wrap}.pill{background:var(--verde2);color:var(--verde);font-weight:800;border-radius:999px;padding:5px 9px;font-size:12px}.info h3{margin:9px 0 6px;color:var(--verde);font-size:22px}.muted{color:#5c755f}.price{font-size:28px;font-weight:900;color:#0a3d25;margin:10px 0}.stock0{opacity:.55}.stock0 .add{background:#777}.drawer{position:fixed;right:-430px;top:0;width:min(430px,100%);height:100%;background:white;z-index:50;box-shadow:-8px 0 25px rgba(0,0,0,.18);transition:.25s;padding:16px;overflow:auto}.drawer.open{right:0}.cartItem{border-bottom:1px solid #e8eee6;padding:10px 0}.cartItem b{color:var(--verde)}.qty{display:flex;gap:8px;align-items:center;margin-top:8px}.qty button{border:1px solid var(--borde);background:white;border-radius:8px;padding:6px 10px;font-weight:800}.empty{text-align:center;padding:40px;color:#607569}.small{font-size:12px;color:#607569}@media(max-width:650px){.head{align-items:flex-start}.brand img{width:62px;height:62px}.brand h1{font-size:22px}.photos,.photos img{height:210px}.wrap{padding:10px}}
+</style>
+
+<style>
+:root{
+  --primary:#1B5E20;
+  --secondary:#2E7D32;
+  --bg:#F6F8F6;
+}
+
+body{
+  font-family: 'Poppins', Arial;
+  background: var(--bg);
+  margin:0;
+}
+
+header{
+  background:white;
+  padding:15px;
+  box-shadow:0 2px 10px rgba(0,0,0,0.08);
+  position:sticky;
+  top:0;
+}
+
+.product-card{
+  background:white;
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow:0 6px 18px rgba(0,0,0,0.08);
+  transition:0.3s;
+}
+
+.product-card:hover{
+  transform:translateY(-5px);
+}
+
+.product-card img{
+  width:100%;
+  height:260px;
+  object-fit:cover;
+}
+
+.btn{
+  background:var(--primary);
+  color:white;
+  padding:10px;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+}
+
+.btn:hover{
+  background:var(--secondary);
+}
+</style>
+
+<style>
+/* ULTRA PRO ADDONS */
+img{loading:lazy}
+.badge-new{position:absolute;top:10px;left:10px;background:#1B5E20;color:white;padding:5px 8px;border-radius:999px;font-size:11px;font-weight:800}
+.card{position:relative}
+.heart{position:absolute;top:10px;right:10px;cursor:pointer;font-size:18px;background:white;border-radius:50%;padding:6px}
+</style>
+</head>
+<body>
+<header><div class="wrap head"><div class="brand"><img src="logo.png" alt="Re-Moda Sustentable"><div><h1>Re-Moda Sustentable</h1><p>Tienda circular con carrito</p></div></div><div><a class="btn sec" href="admin.html">Administrador</a> <button class="btn" onclick="toggleCart()">Carrito <span id="cartCount">0</span></button></div></div></header>
+<main class="wrap"><div class="toolbar"><input id="buscar" placeholder="Buscar por nombre, marca, talla o ID" oninput="render()"><select id="filtroTalla" onchange="render()"><option value="">Todas las tallas</option></select><button class="btn sec" onclick="cargarProductos()">Actualizar</button></div><section id="productos" class="grid"></section></main>
+<aside id="cart" class="drawer">
+<div class="row">
+<h2>Carrito</h2><button class="btn sec" onclick="toggleCart()">Cerrar</button></div><div id="cartItems"></div><h3>Total: <span id="cartTotal">$0</span></h3><label>Nombre cliente<input id="cliente" style="width:100%;padding:12px;border:1px solid var(--borde);border-radius:12px"></label><br><br><button class="btn wa" style="width:100%" onclick="enviarWhatsApp()">Enviar pedido por WhatsApp</button><p class="small">El pedido se registra en Google Sheets y descuenta stock automáticamente.</p></aside>
+<script>
+const API_URL='https://script.google.com/macros/s/AKfycbx8vQ993oFXcuf4hgkoP0cWvagiMMJgLa_XFPhJrEjHIGaQkeDsyZ6uMT23zbcHvExP/exec';
+const WHATSAPP_TIENDA='56928117329';
+let productos=[],carrito=[];const money=n=>'$'+Number(n||0).toLocaleString('es-CL');const qs=id=>document.getElementById(id);function imgFallback(e){e.target.src='logo.png'}
+async function api(action,data={}){try{const r=await fetch(API_URL+'?t='+Date.now(),{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action,...data})});return await r.json()}catch(e){if(action==='listProducts'){const r=await fetch(API_URL+'?action=listProducts&t='+Date.now());return await r.json()}throw e}}
+async function cargarProductos(){qs('productos').innerHTML='<div class="empty">Cargando prendas...</div>';try{const r=await api('listProducts');productos=r.productos||[];cargarTallas();render()}catch(e){qs('productos').innerHTML='<div class="empty">No se pudo cargar. Revisa la URL de Apps Script.</div>'}}
+function cargarTallas(){const tallas=[...new Set(productos.map(p=>p.talla).filter(Boolean))];qs('filtroTalla').innerHTML='<option value="">Todas las tallas</option>'+tallas.map(t=>`<option>${t}</option>`).join('')}
+function render(){
+const q=qs('buscar').value.toLowerCase(),t=qs('filtroTalla').value;
+
+// 🔥 ORDEN DEFINITIVO (última prenda primero)
+productos.sort((a,b)=> new Date(b.actualizado) - new Date(a.actualizado));
+
+let arr=productos.filter(p=>(!t||p.talla==t)&&[p.id,p.nombre,p.marca,p.talla].join(' ').toLowerCase().includes(q));
+
+if(!arr.length){
+qs('productos').innerHTML='<div class="empty">No hay prendas disponibles.</div>';
+return
+}
+
+qs('productos').innerHTML=arr.map(p=>`
+<article class="card ${(Number(p.stock)<=0||p.estado=='Vendido')?'stock0':''}">
+<div class="photos">
+<img src="${p.foto1||'logo.png'}" onclick="openImg(this.src)" onerror="imgFallback(event)">
+<img src="${p.foto2||p.foto1||'logo.png'}" onclick="openImg(this.src)" onerror="imgFallback(event)">
+</div>
+
+<div class="heart" onclick="toggleFav(p.id)">❤</div>
+<div class="info">
+
+
+<div class="row">
+
+<span class="pill">ID: ${p.id||''}</span>
+<span class="pill">${p.estado||'Disponible'}</span>
+</div>
+<h3>${p.nombre||''}</h3>
+<div class="muted">Marca: ${p.marca||'-'} · Talla: ${p.talla||'-'}</div>
+<div class="price">${money(p.precio)}</div>
+<div class="muted">Stock: ${p.stock||0}</div>
+<br>
+<button class="btn add" onclick='addCart(${JSON.stringify(p).replace(/'/g,"&#39;")})' ${(Number(p.stock)<=0||p.estado=='Vendido')?'disabled':''}>Agregar al carrito</button>
+</div>
+</article>
+`).join('')
+}function addCart(p){let stock=Number(p.stock||0),ex=carrito.find(i=>i.id==p.id),actual=ex?ex.cantidad:0;if(actual>=stock)return alert('No hay más stock disponible');if(ex)ex.cantidad++;else carrito.push({...p,cantidad:1});renderCart()}
+function changeQty(idx,delta){let item=carrito[idx],prod=productos.find(p=>p.id==item.id)||item,n=item.cantidad+delta;if(n<=0)carrito.splice(idx,1);else if(n>Number(prod.stock||0))alert('No hay más stock disponible');else item.cantidad=n;renderCart()}
+function renderCart(){qs('cartCount').textContent=carrito.reduce((a,b)=>a+b.cantidad,0);qs('cartItems').innerHTML=carrito.length?carrito.map((i,idx)=>`<div class="cartItem"><b>ID: ${i.id} - ${i.nombre}</b><br>Marca: ${i.marca} · Talla: ${i.talla}<br>${money(i.precio)} x ${i.cantidad} = <b>${money(i.precio*i.cantidad)}</b><div class="qty"><button onclick="changeQty(${idx},-1)">−</button><span>${i.cantidad}</span><button onclick="changeQty(${idx},1)">+</button><button onclick="carrito.splice(${idx},1);renderCart()">Quitar</button></div></div>`).join(''):'<p class="empty">Carrito vacío</p>';qs('cartTotal').textContent=money(carrito.reduce((a,b)=>a+(Number(b.precio)*b.cantidad),0))}
+function toggleCart(){qs('cart').classList.toggle('open');renderCart()}
+async function enviarWhatsApp(){if(!carrito.length)return alert('Agrega prendas al carrito');let cliente=qs('cliente').value||'Sin nombre';let total=carrito.reduce((a,b)=>a+(Number(b.precio)*b.cantidad),0);let msg=`Hola, quiero comprar en Re-Moda Sustentable.\nCliente: ${cliente}\n\n`;carrito.forEach((i,n)=>{msg+=`${n+1}) ID: ${i.id}\nNombre: ${i.nombre}\nMarca: ${i.marca}\nTalla: ${i.talla}\nPrecio: ${money(i.precio)}\nCantidad: ${i.cantidad}\nSubtotal: ${money(i.precio*i.cantidad)}\nFoto 1: ${i.foto1||''}\nFoto 2: ${i.foto2||''}\n\n`});msg+=`TOTAL: ${money(total)}`;try{await api('saveOrder',{cliente,items:carrito,total,descontarStock:true});carrito=[];renderCart();cargarProductos()}catch(e){}window.open(`https://wa.me/${WHATSAPP_TIENDA}?text=${encodeURIComponent(msg)}`,'_blank')}
+cargarProductos();
+</script>
+
+<script>
+let productosData = productosData || [];
+productosData.sort((a,b)=> new Date(b.actualizado) - new Date(a.actualizado));
+</script>
+
+<div id="imgModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.8);justify-content:center;align-items:center;z-index:9999;">
+<img id="imgModalContent" style="max-width:90%;max-height:90%;border-radius:12px;">
+</div>
+<script>
+function openImg(src){
+document.getElementById('imgModal').style.display='flex';
+document.getElementById('imgModalContent').src=src;
+}
+document.addEventListener('click',function(e){
+if(e.target.id==='imgModal') document.getElementById('imgModal').style.display='none';
+});
+</script>
+
+<script>
+let favs = JSON.parse(localStorage.getItem('favs')||'[]');
+
+function toggleFav(id){
+  if(favs.includes(id)) favs=favs.filter(x=>x!==id);
+  else favs.push(id);
+  localStorage.setItem('favs',JSON.stringify(favs));
+  render();
+}
+
+function isNew(dateStr){
+  if(!dateStr) return false;
+  let d = new Date(dateStr);
+  let now = new Date();
+  return (now - d) < (1000*60*60*24*3); // 3 days
+}
+</script>
+</body>
+</html>
